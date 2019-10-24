@@ -70,50 +70,57 @@ test('Test Yesterday - Over a month extreme', () => {
 test('Test Days Ago - At the two extremes of 2 days, just over the threshold', () => {
     var date1 = new Date("2019/10/25  0:0:0");
     var date2 = new Date("2019/10/27  0:0:0");
-    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("2 day(s) ago");
+    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("2 days ago");
 });
 
 test('Test Days Ago - Few Seconds Apart on the threshold', () => {
     var date1 = new Date("2019/10/25  23:59:40");
     var date2 = new Date("2019/10/27  0:0:0");
-    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("1 day(s) ago");
+    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("1 day ago");
 });
 
 test('Test Days Ago - less than 48 hours apart', () => {
     var date1 = new Date("2019/10/25  14:20:20");
     var date2 = new Date("2019/10/27  12:20:20");
-    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("1 day(s) ago");
+    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("1 day ago");
 });
 
 test('Test Days Ago - over 48 hours apart', () => {
     var date1 = new Date("2019/10/25  14:20:20");
     var date2 = new Date("2019/10/27  16:20:20");
-    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("2 day(s) ago");
+    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("2 days ago");
 });
 
 test('Test Days Ago - At the two extremes of two days', () => {
     var date1 = new Date("2019/10/25  0:0:0");
     var date2 = new Date("2019/10/27  23:59:59");
-    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("2 day(s) ago");
+    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("2 days ago");
 });
 
 test('Test Days Ago - Over a month extreme', () => {
     var date1 = new Date("2019/10/30,  0:0:0");
     var date2 = new Date("2019/11/1,  23:59:59");
-    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("2 day(s) ago");
+    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("2 days ago");
 });
 
 test('Test Days Ago - Over 10 days', () => {
     var date1 = new Date("2019/10/20,  0:0:0");
     var date2 = new Date("2019/10/30,  23:59:59");
-    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("10 day(s) ago");
+    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("10 days ago");
 });
 
 test('Test Days Ago - Over 2 months', () => {
     var date1 = new Date("2019/10/20,  0:0:0");
     var date2 = new Date("2019/12/30,  23:59:59");
-    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("71 day(s) ago");
+    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("2 months ago");
 });
+
+test('Test Days Ago - Over 2 YEARS', () => {
+    var date1 = new Date("2018/10/20,  0:0:0");
+    var date2 = new Date("2019/12/30,  23:59:59");
+    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("14 months ago");
+});
+
 
 
 test('Test Tomorrow - At the two extremes of a day, just over the threshold', () => {

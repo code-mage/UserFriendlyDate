@@ -42,17 +42,28 @@ export function UserFriendlyDateHelper(inputDate: Date, currentDate: Date, isCur
 
     if (timeDifference >= 0){
         //Yesterday and x days ago            
-        var yesterday = getDateFromNow(currentDate, -1);
+        var yesterday = getDateFromNow(currentDate, -1,0);
+        var lastMonth = getDateFromNow(currentDate, 0,-1);
+        var monthDifference = getMonthDifference(inputDate, currentDate);
         if (yesterday.getDate() === inputDate.getDate()) {
             return Yesterday;
         }
-        else {
+        else if(inputDate.getTime()-lastMonth.getTime() >= 0) {
             var daysAgo = Math.floor(timeDifferenceInDays);
+            if (daysAgo == 1){
+                return format(DayAgo, daysAgo.toString());
+            }
             return format(DaysAgo, daysAgo.toString());
+        }
+        else{
+            if (monthDifference == 1){
+                return format(MonthAgo, monthDifference.toString());
+            }
+            return format(MonthsAgo, monthDifference.toString());
         }
     }
     else if (timeDifference < 0){
-        var tomorrow = getDateFromNow(currentDate, 1);
+        var tomorrow = getDateFromNow(currentDate, 1,0);
 
         if (tomorrow.getDate() === inputDate.getDate()){
             return Tomorrow;
@@ -82,18 +93,30 @@ function isToday(inputDate: Date, currentDate: Date){
 }
 
 /**
- * This function will return the date *days* days by now
+ * This function will return the date *days* days nad *months* months from now
  * If days is set to 1, it will return tomorrow's date
  * If set to -1, it will return yesterday's date
+ * If month is set to 1, it will return next month
  */
-function getDateFromNow(currentDate: Date, days: number): Date{
-    var yesterday = currentDate;
+function getDateFromNow(currentDate: Date, days: number, months: number): Date{
+    var yesterday = new Date(currentDate.valueOf());
     yesterday.setDate(yesterday.getDate() + days);
+    yesterday.setMonth(yesterday.getMonth() + months);
     return yesterday
+}
+
+function getMonthDifference(inputDate: Date, currentDate: Date): number {
+    var months;
+    months = (currentDate.getFullYear() - inputDate.getFullYear()) * 12;
+    months += currentDate.getMonth() - inputDate.getMonth();
+    return months;
 }
 
 export const Future = "In the future";
 export const Tomorrow = "Tomorrow";
 export const Today = "Today";
 export const Yesterday = "Yesterday";
-export const DaysAgo = "{0} day(s) ago";
+export const DayAgo = "{0} day ago";
+export const DaysAgo = "{0} days ago";
+export const MonthAgo = "{0} month ago";
+export const MonthsAgo = "{0} months ago";
