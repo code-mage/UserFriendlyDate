@@ -1,5 +1,15 @@
 import format = require('string-format');
 
+declare global {
+    interface Date {
+        getUserFriendlyDate(isCurrentTimeZone?: boolean): string;
+    }
+}
+
+
+Date.prototype.getUserFriendlyDate = function (isCurrentTimeZone?: boolean): string {
+    return UserFriendlyDate(this,isCurrentTimeZone);
+};
 
 /**
  * This will return a user friendly date in the below categories

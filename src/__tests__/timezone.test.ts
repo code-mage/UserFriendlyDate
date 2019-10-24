@@ -56,3 +56,10 @@ test('Test Now with local Date - x days ago', () => {
     date1.setHours(date1.getHours() +1);
     expect(UserFriendlyDate(date1)).toBe("4 day(s) ago");
 });
+
+test('Test with date interface', () => {
+    var date1 = new Date();
+    date1.setDate(date1.getDate() - 5);
+    date1.setHours(date1.getHours() +1);    
+    expect(date1.getUserFriendlyDate()).toBe("4 day(s) ago");
+});
