@@ -1,0 +1,19 @@
+{
+  "name": "UserFriendlyDate",
+  "version": "1.0.0",
+  "description": "��U\u0000s\u0000e\u0000r\u0000F\u0000r\u0000i\u0000e\u0000n\u0000d\u0000l\u0000y\u0000D\u0000a\u0000t\u0000e\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --config jestconfig.json",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^24.0.19",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.6.4"
+  }
+}
