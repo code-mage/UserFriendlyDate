@@ -42,9 +42,10 @@ export function UserFriendlyDateHelper(inputDate: Date, currentDate: Date, isCur
 
     if (timeDifference >= 0){
         //Yesterday and x days ago            
-        var yesterday = getDateFromNow(currentDate, -1,0);
-        var lastMonth = getDateFromNow(currentDate, 0,-1);
-        var monthDifference = getMonthDifference(inputDate, currentDate);
+        var yesterday = getDateFromNow(currentDate, -1,0,0);
+        var lastMonth = getDateFromNow(currentDate, 0,-1,0);
+        var lastYear = getDateFromNow(currentDate, 0,0,-1);
+        
         if (yesterday.getDate() === inputDate.getDate()) {
             return Yesterday;
         }
@@ -55,15 +56,23 @@ export function UserFriendlyDateHelper(inputDate: Date, currentDate: Date, isCur
             }
             return format(DaysAgo, daysAgo.toString());
         }
-        else{
+        else if(inputDate.getTime()-lastYear.getTime() >= 0){
+            var monthDifference = getMonthDifference(inputDate, currentDate);
             if (monthDifference == 1){
                 return format(MonthAgo, monthDifference.toString());
             }
             return format(MonthsAgo, monthDifference.toString());
         }
+        else{
+            var yearDifference = getYearDifference(inputDate, currentDate);
+            if (yearDifference == 1){
+                return format(YearAgo, yearDifference.toString());
+            }
+            return format(YearsAgo, yearDifference.toString());
+        }
     }
     else if (timeDifference < 0){
-        var tomorrow = getDateFromNow(currentDate, 1,0);
+        var tomorrow = getDateFromNow(currentDate, 1,0,0);
 
         if (tomorrow.getDate() === inputDate.getDate()){
             return Tomorrow;
@@ -80,6 +89,7 @@ export function UserFriendlyDateHelper(inputDate: Date, currentDate: Date, isCur
 
 
 function convertUTCToLocalDate(inputDate: Date): Date{
+    //the timeOffset gives offset in minutes. Converting it to milliseconds and returning
     return new Date( inputDate.getTime() - (inputDate.getTimezoneOffset() * 60000));
 }
 
@@ -93,15 +103,16 @@ function isToday(inputDate: Date, currentDate: Date){
 }
 
 /**
- * This function will return the date *days* days nad *months* months from now
+ * This function will return the date *days* days, *months* months nad *years* years from now
  * If days is set to 1, it will return tomorrow's date
  * If set to -1, it will return yesterday's date
  * If month is set to 1, it will return next month
  */
-function getDateFromNow(currentDate: Date, days: number, months: number): Date{
+function getDateFromNow(currentDate: Date, days: number, months: number, years: number): Date{
     var yesterday = new Date(currentDate.valueOf());
     yesterday.setDate(yesterday.getDate() + days);
     yesterday.setMonth(yesterday.getMonth() + months);
+    yesterday.setFullYear(yesterday.getFullYear() + years);
     return yesterday
 }
 
@@ -112,6 +123,10 @@ function getMonthDifference(inputDate: Date, currentDate: Date): number {
     return months;
 }
 
+function getYearDifference(inputDate: Date, currentDate: Date): number {
+    return (currentDate.getFullYear() - inputDate.getFullYear());
+}
+
 export const Future = "In the future";
 export const Tomorrow = "Tomorrow";
 export const Today = "Today";
@@ -120,3 +135,5 @@ export const DayAgo = "{0} day ago";
 export const DaysAgo = "{0} days ago";
 export const MonthAgo = "{0} month ago";
 export const MonthsAgo = "{0} months ago";
+export const YearAgo = "{0} year ago";
+export const YearsAgo = "{0} years ago";

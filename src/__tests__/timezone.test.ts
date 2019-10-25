@@ -3,63 +3,63 @@ import { UserFriendlyDate, UserFriendlyDateHelper } from '../index';
 
 
 test('Test Today - UTC Timezone inbuilt', () => {
-    var date1 = new Date("2019/10/25  20:00:00 UTC");
-    var date2 = new Date("2019/10/26  3:00:00");
-    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("Today");
+    var inputDate = new Date("2019/10/25  20:00:00 UTC");
+    var currentDate = new Date("2019/10/26  3:00:00");
+    expect(UserFriendlyDateHelper(inputDate, currentDate, true)).toBe("Today");
 });
 
 
 
 test('Test Tomorrow - UTC Timezone inbuilt', () => {
-    var date1 = new Date("2019/10/25  20:00:00 UTC");
-    var date2 = new Date("2019/10/25  20:00:00");
-    expect(UserFriendlyDateHelper(date1, date2, true)).toBe("Tomorrow");
+    var inputDate = new Date("2019/10/25  20:00:00 UTC");
+    var currentDate = new Date("2019/10/25  20:00:00");
+    expect(UserFriendlyDateHelper(inputDate, currentDate, true)).toBe("Tomorrow");
 });
 
 
-test('Test Today - date1 is in UTC TimeZone, date 2 is local', () => {
+test('Test Today - inputDate is in UTC TimeZone, date 2 is local', () => {
     // It's 8pm 25 in GMT, so in India, it would be 1:30am 26th
-    var date1 = new Date("2019/10/25  20:00:00");
-    var date2 = new Date("2019/10/26  3:00:00");
-    expect(UserFriendlyDateHelper(date1, date2)).toBe("Today");
+    var inputDate = new Date("2019/10/25  20:00:00");
+    var currentDate = new Date("2019/10/26  3:00:00");
+    expect(UserFriendlyDateHelper(inputDate, currentDate)).toBe("Today");
 });
 
-test('Test Tomorrow - date1 is in UTC TimeZone, date 2 is local', () => {
+test('Test Tomorrow - inputDate is in UTC TimeZone, date 2 is local', () => {
     // It's 8pm 25 in GMT, so in India, it would be 1:30am 26th
-    var date1 = new Date("2019/10/25  20:00:00");
-    var date2 = new Date("2019/10/25  20:00:00");
-    expect(UserFriendlyDateHelper(date1, date2)).toBe("Tomorrow");
+    var inputDate = new Date("2019/10/25  20:00:00");
+    var currentDate = new Date("2019/10/25  20:00:00");
+    expect(UserFriendlyDateHelper(inputDate, currentDate)).toBe("Tomorrow");
 });
 
 test('Test Now with local Date - Future', () => {
-    var date1 = new Date();
-    date1.setDate(date1.getDate() +4);
-    expect(UserFriendlyDate(date1)).toBe("In the future");
+    var inputDate = new Date();
+    inputDate.setDate(inputDate.getDate() +4);
+    expect(UserFriendlyDate(inputDate)).toBe("In the future");
 });
 
 test('Test Now with local Date - Yesterday', () => {
-    var date1 = new Date();
-    date1.setDate(date1.getDate() - 1);
-    expect(UserFriendlyDate(date1)).toBe("Yesterday");
+    var inputDate = new Date();
+    inputDate.setDate(inputDate.getDate() - 1);
+    expect(UserFriendlyDate(inputDate)).toBe("Yesterday");
 });
 
 test('Test Now with local Date - x days ago', () => {
-    var date1 = new Date();
-    date1.setDate(date1.getDate() - 5);
-    date1.setHours(date1.getHours() - 11);
-    expect(UserFriendlyDate(date1)).toBe("5 days ago");
+    var inputDate = new Date();
+    inputDate.setDate(inputDate.getDate() - 5);
+    inputDate.setHours(inputDate.getHours() - 11);
+    expect(UserFriendlyDate(inputDate)).toBe("5 days ago");
 });
 
 test('Test Now with local Date - x days ago', () => {
-    var date1 = new Date();
-    date1.setDate(date1.getDate() - 5);
-    date1.setHours(date1.getHours() +1);
-    expect(UserFriendlyDate(date1)).toBe("4 days ago");
+    var inputDate = new Date();
+    inputDate.setDate(inputDate.getDate() - 5);
+    inputDate.setHours(inputDate.getHours() +1);
+    expect(UserFriendlyDate(inputDate)).toBe("4 days ago");
 });
 
 test('Test with date interface', () => {
-    var date1 = new Date();
-    date1.setDate(date1.getDate() - 5);
-    date1.setHours(date1.getHours() +1);    
-    expect(date1.getUserFriendlyDate()).toBe("4 days ago");
+    var inputDate = new Date();
+    inputDate.setDate(inputDate.getDate() - 5);
+    inputDate.setHours(inputDate.getHours() +1);    
+    expect(inputDate.getUserFriendlyDate()).toBe("4 days ago");
 });
