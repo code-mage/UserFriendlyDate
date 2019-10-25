@@ -26,7 +26,6 @@ export function UserFriendlyDate(date: Date, isCurrentTimeZone?: boolean): strin
  * In the Future, Tomorrow, Today, Yesterday, {x} days ago
  */
 export function UserFriendlyDateHelper(inputDate: Date, currentDate: Date, isCurrentTimeZone?: boolean): string{
-    var millisecondsInADay = 1000 * 60 * 60 * 24;
 
     if (!isCurrentTimeZone){
         inputDate = convertUTCToLocalDate(inputDate);
@@ -34,14 +33,34 @@ export function UserFriendlyDateHelper(inputDate: Date, currentDate: Date, isCur
     }
 
     var timeDifference = currentDate.getTime()-inputDate.getTime();
-    var timeDifferenceInDays = timeDifference / millisecondsInADay;
-
-    if (isToday(inputDate,currentDate)){
-        return Today;
-    }
+    var timeDifferenceInDays = Math.floor(Math.abs(timeDifference / day));
+    var timeDifferenceInMinutes = Math.floor(Math.abs(timeDifference /minute));
+    var timeDifferenceInHours = Math.floor(Math.abs(timeDifference / hour));
+    
 
     //Past
-    if (timeDifference >= 0){          
+    if (timeDifference >= 0){
+        
+        if (timeDifferenceInMinutes <= 5){
+            return JustNow;
+        }
+
+        if (timeDifferenceInMinutes < 60){
+            return format(MinutesAgo, timeDifferenceInMinutes.toString());
+        }
+
+        if (timeDifferenceInHours <= 12){
+            if (timeDifferenceInHours == 1){
+                return format(HourAgo, timeDifferenceInHours.toString());
+            }
+            return format(HoursAgo, timeDifferenceInHours.toString());
+        }
+
+        if (isToday(inputDate,currentDate)){
+            return Today;
+        }
+
+
         var yesterday = getDateFromNow(currentDate, -1,0,0);
         var lastMonth = getDateFromNow(currentDate, 0,-1,0);
         var lastYear = getDateFromNow(currentDate, 0,0,-1);
@@ -52,11 +71,10 @@ export function UserFriendlyDateHelper(inputDate: Date, currentDate: Date, isCur
         }
         //if less than a month's time has passed, return in {x} days fromat
         else if(inputDate.getTime()-lastMonth.getTime() >= 0) {
-            var daysAgo = Math.floor(timeDifferenceInDays);
-            if (daysAgo == 1){
-                return format(DayAgo, daysAgo.toString());
+            if (timeDifferenceInDays == 1){
+                return format(DayAgo, timeDifferenceInDays.toString());
             }
-            return format(DaysAgo, daysAgo.toString());
+            return format(DaysAgo, timeDifferenceInDays.toString());
         }
         // if more than a month but less than a year has passed, return in {x} months format
         else if(inputDate.getTime()-lastYear.getTime() >= 0){
@@ -77,13 +95,32 @@ export function UserFriendlyDateHelper(inputDate: Date, currentDate: Date, isCur
     }
     //Future
     else if (timeDifference < 0){
+        if (timeDifferenceInMinutes <= 5){
+            return DueJustNow;
+        }
+
+        if (timeDifferenceInMinutes < 60){
+            return format(DueMinutesAgo, timeDifferenceInMinutes.toString());
+        }
+
+        if (timeDifferenceInHours <= 12){
+            if (timeDifferenceInHours == 1){
+                return format(DueHourAgo, timeDifferenceInHours.toString());
+            }
+            return format(DueHoursAgo, timeDifferenceInHours.toString());
+        }
+
+        if (isToday(inputDate,currentDate)){
+            return DueToday;
+        }
+
         var tomorrow = getDateFromNow(currentDate, 1,0,0);
 
         if (tomorrow.getDate() === inputDate.getDate()){
-            return Tomorrow;
+            return DueTomorrow;
         }
         else{
-            return Future;
+            return DueFuture;
         }        
     }
 
@@ -132,8 +169,20 @@ function getYearDifference(inputDate: Date, currentDate: Date): number {
     return (currentDate.getFullYear() - inputDate.getFullYear());
 }
 
-export const Future = "In the future";
-export const Tomorrow = "Tomorrow";
+//Future
+export const DueFuture = "Due in the future";
+export const DueTomorrow = "Due tomorrow";
+export const DueHourAgo = "Due in {0} hour";
+export const DueHoursAgo = "Due in {0} hours";
+export const DueMinutesAgo = "Due in {0} minutes";
+export const DueJustNow = "Due just now";
+export const DueToday = "Due today";
+
+//Past
+export const JustNow = "Just now";
+export const MinutesAgo = "{0} minutes ago";
+export const HourAgo = "{0} hour ago";
+export const HoursAgo = "{0} hours ago";
 export const Today = "Today";
 export const Yesterday = "Yesterday";
 export const DayAgo = "{0} day ago";
@@ -142,3 +191,9 @@ export const MonthAgo = "{0} month ago";
 export const MonthsAgo = "{0} months ago";
 export const YearAgo = "{0} year ago";
 export const YearsAgo = "{0} years ago";
+
+
+export const second = 1000;
+export const minute = second * 60;
+export const hour = minute * 60;
+export const day = hour * 24;

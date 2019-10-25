@@ -2,26 +2,25 @@ import { UserFriendlyDateHelper } from '../index';
 
 test('Test Today - Same dates', () => {
     var inputDate = new Date("2019/10/25  14:45:10");
-    expect(UserFriendlyDateHelper(inputDate, inputDate, true)).toBe("Today");
+    expect(UserFriendlyDateHelper(inputDate, inputDate, true)).toBe("Just now");
 });
 
 test('Test Today - Few Seconds Apart', () => {
     var inputDate = new Date("2019/10/25  14:45:10");
     var currentDate = new Date("2019/10/25  14:45:30");
-    expect(UserFriendlyDateHelper(inputDate, currentDate, true)).toBe("Today");
+    expect(UserFriendlyDateHelper(inputDate, currentDate, true)).toBe("Just now");
 });
-
 
 test('Test Today - Hours Apart Backward', () => {
     var inputDate = new Date("2019/10/25  14:45:10");
     var currentDate = new Date("2019/10/25  4:45:30");
-    expect(UserFriendlyDateHelper(inputDate, currentDate, true)).toBe("Today");
+    expect(UserFriendlyDateHelper(inputDate, currentDate, true)).toBe("Due in 9 hours");
 });
 
 test('Test Today - Hours Apart Forward', () => {
     var inputDate = new Date("2019/10/25  14:45:10");
     var currentDate = new Date("2019/10/25  16:45:30");
-    expect(UserFriendlyDateHelper(inputDate, currentDate, true)).toBe("Today");
+    expect(UserFriendlyDateHelper(inputDate, currentDate, true)).toBe("2 hours ago");
 });
 
 test('Test Today - At the two extremes of a day', () => {
@@ -40,7 +39,7 @@ test('Test Yesterday - At the two extremes of a day, just over the threshold', (
 test('Test Yesterday - Few Seconds Apart on the threshold', () => {
     var inputDate = new Date("2019/10/25  23:59:40");
     var currentDate = new Date("2019/10/26  0:0:0");
-    expect(UserFriendlyDateHelper(inputDate, currentDate, true)).toBe("Yesterday");
+    expect(UserFriendlyDateHelper(inputDate, currentDate, true)).toBe("Just now");
 });
 
 test('Test Yesterday - less than 24 hours apart', () => {
@@ -152,53 +151,53 @@ test('Test Days Ago - 5 years', () => {
 test('Test Tomorrow - At the two extremes of a day, just over the threshold', () => {
     var curentDate = new Date("2019/10/25  0:0:0");
     var inputDate = new Date("2019/10/26  0:0:0");
-    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("Tomorrow");
+    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("Due tomorrow");
 });
 
 test('Test Tomorrow - Few Seconds Apart on the threshold', () => {
     var curentDate = new Date("2019/10/25  23:59:40");
     var inputDate = new Date("2019/10/26  0:0:0");
-    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("Tomorrow");
+    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("Due just now");
 });
 
 test('Test Tomorrow - less than 24 hours apart', () => {
     var curentDate = new Date("2019/10/25  14:20:20");
     var inputDate = new Date("2019/10/26  12:20:20");
-    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("Tomorrow");
+    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("Due tomorrow");
 });
 
 test('Test Tomorrow - over 24 hours apart', () => {
     var curentDate = new Date("2019/10/25  14:20:20");
     var inputDate = new Date("2019/10/26  16:20:20");
-    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("Tomorrow");
+    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("Due tomorrow");
 });
 
 test('Test Tomorrow - At the two extremes of two days', () => {
     var curentDate = new Date("2019/10/25  0:0:0");
     var inputDate = new Date("2019/10/26  23:59:59");
-    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("Tomorrow");
+    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("Due tomorrow");
 });
 
 test('Test Tomorrow - Over a month extreme', () => {
     var curentDate = new Date("2019/10/31,  0:0:0");
     var inputDate = new Date("2019/11/1,  23:59:59");
-    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("Tomorrow");
+    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("Due tomorrow");
 });
 
 test('Test Future - just crossing over the extremes of two days', () => {
     var curentDate = new Date("2019/10/25  0:0:0");
     var inputDate = new Date("2019/10/27  0:0:0");
-    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("In the future");
+    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("Due in the future");
 });
 
 test('Test Future - two days and a few hours', () => {
     var curentDate = new Date("2019/10/25  0:0:0");
     var inputDate = new Date("2020/10/27,  3:0:0");
-    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("In the future");
+    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("Due in the future");
 });
 
 test('Test Future - a little more time', () => {
     var curentDate = new Date("2019/10/25  0:0:0");
     var inputDate = new Date("2020/10/27,  0:0:0");
-    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("In the future");
+    expect(UserFriendlyDateHelper(inputDate, curentDate, true)).toBe("Due in the future");
 });
