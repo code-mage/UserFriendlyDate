@@ -40,14 +40,17 @@ export function UserFriendlyDateHelper(inputDate: Date, currentDate: Date, isCur
         return Today;
     }
 
+    //Past
     if (timeDifference >= 0){          
         var yesterday = getDateFromNow(currentDate, -1,0,0);
         var lastMonth = getDateFromNow(currentDate, 0,-1,0);
         var lastYear = getDateFromNow(currentDate, 0,0,-1);
         
+        //If the date is same as yesterday, return yesterday
         if (yesterday.getDate() === inputDate.getDate()) {
             return Yesterday;
         }
+        //if less than a month's time has passed, return in {x} days fromat
         else if(inputDate.getTime()-lastMonth.getTime() >= 0) {
             var daysAgo = Math.floor(timeDifferenceInDays);
             if (daysAgo == 1){
@@ -55,6 +58,7 @@ export function UserFriendlyDateHelper(inputDate: Date, currentDate: Date, isCur
             }
             return format(DaysAgo, daysAgo.toString());
         }
+        // if more than a month but less than a year has passed, return in {x} months format
         else if(inputDate.getTime()-lastYear.getTime() >= 0){
             var monthDifference = getMonthDifference(inputDate, currentDate);
             if (monthDifference == 1){
@@ -62,6 +66,7 @@ export function UserFriendlyDateHelper(inputDate: Date, currentDate: Date, isCur
             }
             return format(MonthsAgo, monthDifference.toString());
         }
+        //if more than a year has passed, return in {x} years format
         else{
             var yearDifference = getYearDifference(inputDate, currentDate);
             if (yearDifference == 1){
@@ -70,6 +75,7 @@ export function UserFriendlyDateHelper(inputDate: Date, currentDate: Date, isCur
             return format(YearsAgo, yearDifference.toString());
         }
     }
+    //Future
     else if (timeDifference < 0){
         var tomorrow = getDateFromNow(currentDate, 1,0,0);
 
