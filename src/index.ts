@@ -40,8 +40,7 @@ export function UserFriendlyDateHelper(inputDate: Date, currentDate: Date, isCur
         return Today;
     }
 
-    if (timeDifference >= 0){
-        //Yesterday and x days ago            
+    if (timeDifference >= 0){          
         var yesterday = getDateFromNow(currentDate, -1,0,0);
         var lastMonth = getDateFromNow(currentDate, 0,-1,0);
         var lastYear = getDateFromNow(currentDate, 0,0,-1);

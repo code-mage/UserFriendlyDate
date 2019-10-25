@@ -2,4 +2,4 @@
 1. Just now
 2. {x} minutes ago
 3. {x} hours ago
-4. Publish an NPM
+4. Publish an NPM (npm publish --access public)
